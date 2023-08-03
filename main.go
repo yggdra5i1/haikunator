@@ -30,10 +30,13 @@ var (
 
 func Haikunate(tokenRange int, delimiter string) string {
 	rand.New(rand.NewSource(time.Now().UnixNano()))
+	tkn := token(tokenRange)
 	sections := []string{
 		adjectives[rand.Intn(len(adjectives))],
 		nouns[rand.Intn(len(nouns))],
-		token(tokenRange),
+	}
+	if len(tkn) > 0 {
+		sections = append(sections, tkn)
 	}
 	return join(sections, delimiter)
 }
