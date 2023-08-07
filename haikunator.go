@@ -1,4 +1,4 @@
-package main
+package haikunator
 
 import (
 	"fmt"
