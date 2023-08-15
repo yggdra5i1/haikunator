@@ -28,7 +28,7 @@ var (
 	}
 )
 
-func Haikunate(tokenRange int, delimiter string) string {
+func Build(tokenRange int, delimiter string) string {
 	rand.New(rand.NewSource(time.Now().UnixNano()))
 	tkn := token(tokenRange)
 	sections := []string{
@@ -39,6 +39,18 @@ func Haikunate(tokenRange int, delimiter string) string {
 		sections = append(sections, tkn)
 	}
 	return join(sections, delimiter)
+}
+
+func BuildDefault() string {
+	return Build(9999, "-")
+}
+
+func BuildWithTokenRange(tokenRange int) string {
+	return Build(tokenRange, "-")
+}
+
+func BuildWithDelimiter(delimiter string) string {
+	return Build(9999, delimiter)
 }
 
 func token(rangeNum int) string {
