@@ -3,6 +3,7 @@ package haikunator
 import (
 	"fmt"
 	"math/rand"
+	"strings"
 	"time"
 )
 
@@ -38,7 +39,8 @@ func Build(tokenRange int, delimiter string) string {
 	if len(tkn) > 0 {
 		sections = append(sections, tkn)
 	}
-	return join(sections, delimiter)
+
+	return strings.Join(sections[:], delimiter)
 }
 
 func BuildDefault() string {
@@ -58,15 +60,4 @@ func token(rangeNum int) string {
 		return fmt.Sprintf("%d", rand.Intn(rangeNum))
 	}
 	return ""
-}
-
-func join(strs []string, delimiter string) string {
-	result := ""
-	for i, str := range strs {
-		if i > 0 {
-			result += delimiter
-		}
-		result += str
-	}
-	return result
 }

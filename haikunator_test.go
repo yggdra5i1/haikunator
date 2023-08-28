@@ -5,9 +5,9 @@ import (
 	"testing"
 )
 
-func TestBuild(t *testing.T) {
+func TestBuildDefault(t *testing.T) {
 	t.Run("generates a name like patient-river-3393", func(t *testing.T) {
-		name := Build(9999, "-")
+		name := BuildDefault()
 		match, _ := regexp.MatchString(`\A\w+-\w+-\d{1,4}\z`, name)
 
 		if !match {
@@ -16,16 +16,18 @@ func TestBuild(t *testing.T) {
 	})
 
 	t.Run("won't return the same name for subsequent calls", func(t *testing.T) {
-		name1 := Build(9999, "-")
-		name2 := Build(9999, "-")
+		name1 := BuildDefault()
+		name2 := BuildDefault()
 
 		if name1 == name2 {
 			t.Error("Returns the same name for subsequent calls")
 		}
 	})
+}
 
+func TestBuildWithTokenRange(t *testing.T) {
 	t.Run("permits optional configuration of the token range", func(t *testing.T) {
-		name := Build(9, "-")
+		name := BuildWithTokenRange(9)
 		match, _ := regexp.MatchString(`-\d{1}\z`, name)
 
 		if !match {
@@ -34,14 +36,16 @@ func TestBuild(t *testing.T) {
 	})
 
 	t.Run("drops the token if token range is 0", func(t *testing.T) {
-		name := Build(0, "-")
+		name := BuildWithTokenRange(0)
 		match, _ := regexp.MatchString(`\A\w+-\w+\z`, name)
 
 		if !match {
 			t.Errorf("Doesn't drop the token if token range is 0\nResult - %q", name)
 		}
 	})
+}
 
+func TestBuild(t *testing.T) {
 	t.Run("permits optional configuration of the delimiter", func(t *testing.T) {
 		name := Build(9999, ".")
 		match, _ := regexp.MatchString(`\A\w+\.\w+\.\d{1,4}\z`, name)
